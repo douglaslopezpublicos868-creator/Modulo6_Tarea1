@@ -112,10 +112,117 @@ export const estudiantes = [
         nota: 9.0
     }
 ];
-//GET
 
-//POST
+/*
+==========================================
+GET TODOS LOS ESTUDIANTES
+==========================================
+*/
+app.get('/estudiantes', (req, res) => {
+    res.status(200).json(estudiantes);
+});
 
-//PUT
+/*
+==========================================
+GET ESTUDIANTE POR ID
+==========================================
+*/
+app.get('/estudiantes/:id', (req, res) => {
+    const id = Number(req.params.id);
 
-//DELETE
+    const estudiante = estudiantes.find(e => e.id === id);
+
+    if (!estudiante) {
+        return res.status(404).json({
+            mensaje: 'Estudiante no encontrado'
+        });
+    }
+
+    res.status(200).json(estudiante);
+});
+
+/*
+==========================================
+POST NUEVO ESTUDIANTE
+==========================================
+*/
+app.post('/estudiantes', (req, res) => {
+    const { nombre, correo, nota } = req.body;
+
+    if (!nombre || !correo || nota === undefined) {
+        return res.status(400).json({
+            mensaje: 'Todos los campos son obligatorios'
+        });
+    }
+
+    const nuevoEstudiante = {
+        id: estudiantes.length > 0
+            ? estudiantes[estudiantes.length - 1].id + 1
+            : 1,
+        nombre,
+        correo,
+        nota
+    };
+
+    estudiantes.push(nuevoEstudiante);
+
+    res.status(201).json({
+        mensaje: 'Estudiante agregado correctamente',
+        estudiante: nuevoEstudiante
+    });
+});
+
+/*
+==========================================
+PUT ACTUALIZAR ESTUDIANTE
+==========================================
+*/
+app.put('/estudiantes/:id', (req, res) => {
+    const id = Number(req.params.id);
+
+    const estudiante = estudiantes.find(e => e.id === id);
+
+    if (!estudiante) {
+        return res.status(404).json({
+            mensaje: 'Estudiante no encontrado'
+        });
+    }
+
+    const { nombre, correo, nota } = req.body;
+
+    estudiante.nombre = nombre ?? estudiante.nombre;
+    estudiante.correo = correo ?? estudiante.correo;
+    estudiante.nota = nota ?? estudiante.nota;
+
+    res.status(200).json({
+        mensaje: 'Estudiante actualizado correctamente',
+        estudiante
+    });
+});
+
+/*
+==========================================
+DELETE ELIMINAR ESTUDIANTE
+==========================================
+*/
+app.delete('/estudiantes/:id', (req, res) => {
+    const id = Number(req.params.id);
+
+    const indice = estudiantes.findIndex(e => e.id === id);
+
+    if (indice === -1) {
+        return res.status(404).json({
+            mensaje: 'Estudiante no encontrado'
+        });
+    }
+
+    estudiantes.splice(indice, 1);
+
+    res.status(200).json({
+        mensaje: 'Estudiante eliminado correctamente'
+    });
+});
+
+app.listen(PORT, () => {
+    console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
+});
