@@ -2,11 +2,21 @@
 
 ## Descripción
 
-Este proyecto consiste en el desarrollo de una API REST utilizando Node.js y Express.js para la gestión de estudiantes. La aplicación permite realizar operaciones CRUD (Crear, Leer, Actualizar y Eliminar) sobre una colección de estudiantes almacenada en un arreglo de objetos JavaScript.
+Este proyecto consiste en el desarrollo de una API REST utilizando Node.js y Express.js para la gestión de estudiantes.
 
-El objetivo principal es comprender el funcionamiento de las peticiones HTTP y la construcción de servicios backend antes de integrar una base de datos.
+La aplicación implementa las operaciones CRUD (Crear, Leer, Actualizar y Eliminar) mediante peticiones HTTP y respuestas en formato JSON.
 
-> Nota: Los datos son almacenados temporalmente en memoria (hardcoded), por lo que al reiniciar el servidor se restablece la información inicial.
+Los datos se almacenan en un arreglo de objetos JavaScript dentro del archivo `index.js`, por lo que no se utiliza ninguna base de datos.
+
+El sistema inicia con 20 estudiantes precargados y permite:
+
+- Consultar todos los estudiantes.
+- Consultar un estudiante por ID.
+- Agregar nuevos estudiantes.
+- Actualizar estudiantes existentes.
+- Eliminar estudiantes.
+
+> Nota: Los datos se almacenan únicamente en memoria. Cada vez que el servidor se reinicia, los cambios realizados se pierden y la lista vuelve a su estado inicial.
 
 ---
 
@@ -24,13 +34,13 @@ El objetivo principal es comprender el funcionamiento de las peticiones HTTP y l
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/douglaslopezpublicos868-creator/Modulo6_Tarea1
+git clone https://github.com/douglaslopezpublicos868-creator/Modulo6_Tarea1.git
 ```
 
 ### 2. Ingresar al directorio del proyecto
 
 ```bash
-cd modulo6_tarea1
+cd Modulo6_Tarea1
 ```
 
 ### 3. Instalar dependencias
@@ -60,7 +70,7 @@ http://localhost:3000
 ## Estructura del proyecto
 
 ```text
-modulo6_tarea1/
+Modulo6_Tarea1/
 │
 ├── index.js
 ├── package.json
@@ -89,7 +99,7 @@ Cada estudiante posee la siguiente estructura:
 ## Endpoints disponibles
 
 | Método | Endpoint | Descripción |
-|---------|----------|-------------|
+|----------|----------|-------------|
 | GET | /estudiantes | Obtener todos los estudiantes |
 | GET | /estudiantes/:id | Obtener un estudiante por ID |
 | POST | /estudiantes | Crear un nuevo estudiante |
@@ -156,6 +166,20 @@ Body:
 }
 ```
 
+Respuesta:
+
+```json
+{
+  "mensaje": "Estudiante agregado correctamente",
+  "estudiante": {
+    "id": 21,
+    "nombre": "Juan Pérez",
+    "correo": "juan@email.com",
+    "nota": 8.7
+  }
+}
+```
+
 ---
 
 ### Actualizar un estudiante
@@ -168,8 +192,16 @@ Body:
 
 ```json
 {
-  "nombre": "Juan Pérez Actualizado",
-  "nota": 9.5
+  "nombre": "Alejandro García Actualizado",
+  "nota": 10
+}
+```
+
+Respuesta:
+
+```json
+{
+  "mensaje": "Estudiante actualizado correctamente"
 }
 ```
 
@@ -179,6 +211,14 @@ Body:
 
 ```http
 DELETE /estudiantes/1
+```
+
+Respuesta:
+
+```json
+{
+  "mensaje": "Estudiante eliminado correctamente"
+}
 ```
 
 ---
@@ -194,14 +234,18 @@ DELETE /estudiantes/1
 
 ---
 
-## Pruebas
+## Pruebas realizadas
 
-Las pruebas de funcionamiento fueron realizadas utilizando Thunder Client en Visual Studio Code, verificando correctamente las operaciones:
+Las pruebas de funcionamiento fueron realizadas utilizando Thunder Client para Visual Studio Code.
+
+Se verificó el correcto funcionamiento de:
 
 - GET
 - POST
 - PUT
 - DELETE
+
+Además, se validaron los códigos de estado HTTP correspondientes para cada operación.
 
 ---
 
